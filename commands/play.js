@@ -20,7 +20,7 @@ module.exports = {
      */
     run: async (client, message, args, { GuildDB }) => {
         if (!message.member.voice.channel) return client.sendTime(message.channel, "❌ | **Vous devez être dans un salon vocal pour jouer quelque chose.!**");
-        if (message.guild.me.voice.channel && message.member.voice.channel.id !== message.guild.me.voice.channel.id) return client.sendTime(message.channel, ":x: | **Vous devez être dans le même salon vocal que moi pour utiliser cette commande.!**");
+        if (message.guild.me.voice.channel && message.member.voice.channel.id !== message.guild.me.voice.channel.id) return client.sendTime(message.channel, ":x: | **Vous devez être dans le même salon vocal que moi pour utiliser cette commande !**");
         let SearchString = args.join(" ");
         if (!SearchString) return client.sendTime(message.channel, `**Usage - **\`${GuildDB.prefix}play [song]\``);
         let CheckNode = client.Manager.nodes.get(client.config.Lavalink.id);
