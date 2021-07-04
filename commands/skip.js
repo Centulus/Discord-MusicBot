@@ -3,7 +3,7 @@ const { TrackUtils } = require("erela.js");
 
 module.exports = {
     name: "skip",
-    description: "Skip the current song",
+    description: "Passer à la chanson suivante",
     usage: "",
     permissions: {
         channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
@@ -19,9 +19,9 @@ module.exports = {
      */
     run: async (client, message, args, { GuildDB }) => {
         let player = await client.Manager.get(message.guild.id);
-        if (!player) return client.sendTime(message.channel, "❌ | **Nothing is playing right now...**");
-        if (!message.member.voice.channel) return client.sendTime(message.channel, "❌ | **You must be in a voice channel to use this command!**");
-        if (message.guild.me.voice.channel && message.member.voice.channel.id !== message.guild.me.voice.channel.id) return client.sendTime(message.channel, ":x: | **You must be in the same voice channel as me to use this command!**");
+        if (!player) return client.sendTime(message.channel, "❌ | **Rien n'est joué actuellement...**");
+        if (!message.member.voice.channel) return client.sendTime(message.channel, "❌ | **Vous devez être dans un salon vocal pour utiliser cette commande !**");
+        if (message.guild.me.voice.channel && message.member.voice.channel.id !== message.guild.me.voice.channel.id) return client.sendTime(message.channel, ":x: | **Vous devez être dans le même salon vocal que moi pour utiliser cette commande !**");
         player.stop();
         await message.react("✅");
     },
@@ -37,18 +37,18 @@ module.exports = {
             const guild = client.guilds.cache.get(interaction.guild_id);
             const member = guild.members.cache.get(interaction.member.user.id);
 
-            if (!member.voice.channel) return client.sendTime(interaction, "❌ | **You must be in a voice channel to use this command.**");
-            if (guild.me.voice.channel && !guild.me.voice.channel.equals(member.voice.channel)) return client.sendTime(interaction, ":x: | **You must be in the same voice channel as me to use this command!**");
+            if (!member.voice.channel) return client.sendTime(interaction, "❌ | **Vous devez être dans un salon vocal pour utiliser cette commande.**");
+            if (guild.me.voice.channel && !guild.me.voice.channel.equals(member.voice.channel)) return client.sendTime(interaction, ":x: | **Vous devez être dans le même salon vocal que moi pour utiliser cette commande !**");
 
             const skipTo = interaction.data.options ? interaction.data.options[0].value : null;
 
             let player = await client.Manager.get(interaction.guild_id);
 
-            if (!player) return client.sendTime(interaction, "❌ | **Nothing is playing right now...**");
+            if (!player) return client.sendTime(interaction, "❌ | **Rien n'est joué actuellement...**");
             console.log(interaction.data);
-            if (skipTo !== null && (isNaN(skipTo) || skipTo < 1 || skipTo > player.queue.length)) return client.sendTime(interaction, "❌ | **Invalid number to skip!**");
+            if (skipTo !== null && (isNaN(skipTo) || skipTo < 1 || skipTo > player.queue.length)) return client.sendTime(interaction, "❌ | **Invalide nombres de chansons à sauter!**");
             player.stop(skipTo);
-            client.sendTime(interaction, "**Skipped!**");
+            client.sendTime(interaction, "**Passé !**");
         },
     },
 };
