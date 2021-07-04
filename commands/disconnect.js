@@ -18,9 +18,9 @@ module.exports = {
    */
   run: async (client, message, args, { GuildDB }) => {
     let player = await client.Manager.get(message.guild.id);
-    if (!message.member.voice.channel) return client.sendTime(message.channel, "❌ | **You must be in a voice channel use this command**");
-    if (!player) return client.sendTime(message.channel,"❌ | **Nothing is playing right now...**");
-    await client.sendTime(message.channel,":notes: | **Disconnected!**");
+    if (!message.member.voice.channel) return client.sendTime(message.channel, "❌ | **Vous devez être dans un salon vocal pour utiliser cette commande.**");
+    if (!player) return client.sendTime(message.channel,"❌ | **Rien n'est joué actuellement...**");
+    await client.sendTime(message.channel,":notes: | **Déconnecté !**");
     await message.react("✅");
     player.destroy();
   },
@@ -40,7 +40,7 @@ module.exports = {
       if (!member.voice.channel)
         return client.sendTime(
           interaction,
-          "❌ | **You must be in a voice channel to use this command.**"
+          "❌ | **Vous devez être dans un salon pour utiliser cette commande.**"
         );
       if (
         guild.me.voice.channel &&
@@ -48,19 +48,19 @@ module.exports = {
       )
         return client.sendTime(
           interaction,
-          `❌ | **You must be in ${guild.me.voice.channel} to use this command.**`
+          `❌ | **Vous devez être dans ${guild.me.voice.channel} pour utiliser cette commande.**`
         );
 
       let player = await client.Manager.get(interaction.guild_id);
       if (!player)
         return client.sendTime(
           interaction,
-          "❌ | **Nothing is playing right now...**"
+          "❌ | **Rien n'est joué actuellement...**"
         );
       player.destroy();
       client.sendTime(
         interaction,
-        ":notes: | **Disconnected!**"
+        ":notes: | **Déconnecté !**"
       );
     },
   },
