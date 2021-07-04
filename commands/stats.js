@@ -5,7 +5,7 @@ const moment = require("moment");
 
 module.exports = {
     name: "stats",
-    description: "Get information about the bot",
+    description: "Obtenir des informations sur le bot",
     usage: "",
     permissions: {
         channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
@@ -40,22 +40,22 @@ module.exports = {
                 value: `┕\`${duration}\``,
                 inline: true
             },{
-                name: ':file_cabinet: Memory',
+                name: ':file_cabinet: Mémoire',
                 value: `┕\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}mb\``,
                 inline: true
             })
 
             embed.addFields({
-                name: ':homes: Servers',
+                name: ':homes: Serveurs',
                 value: `┕\`${client.guilds.cache.size}\``,
                 inline: true
             },
             {
-                name: ':busts_in_silhouette: Users',
+                name: ':busts_in_silhouette: Membres',
                 value: `┕\`${client.users.cache.size}\``,
                 inline: true
             },{
-                name: ':control_knobs: API Latency',
+                name: ':control_knobs: Lantence API',
                 value: `┕\`${(message.client.ws.ping)}ms\``,
                 inline: true
             })
@@ -105,22 +105,22 @@ SlashCommand: {
             value: `┕\`${duration}\``,
             inline: true
         },{
-            name: ':file_cabinet: Memory',
+            name: ':file_cabinet: Mémoire',
             value: `┕\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}mb\``,
             inline: true
         })
 
         embed.addFields({
-            name: ':homes: Servers',
+            name: ':homes: Serveurs',
             value: `┕\`${client.guilds.cache.size}\``,
             inline: true
         },
         {
-            name: ':busts_in_silhouette: Users',
+            name: ':busts_in_silhouette: Membres',
             value: `┕\`${client.users.cache.size}\``,
             inline: true
         },{
-            name: ':control_knobs: API Latency',
+            name: ':control_knobs: Lantence API',
             value: `┕\`${(client.ws.ping)}ms\``,
             inline: true
         })
