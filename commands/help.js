@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "help",
-  description: "Information about the bot",
+  description: "Informations sur le bot",
   usage: "[command]",
   permissions: {
     channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
@@ -26,27 +26,25 @@ module.exports = {
 
     let Embed = new MessageEmbed()
             .setAuthor(
-              `Commands of ${client.user.username}`,
+              `Commandes de ${client.user.username}`,
               client.config.IconURL
             )
             .setColor("RANDOM")
             .setFooter(
-              `To get info of each command type ${
+              `Pour obtenir des informations sur chaque commande, tapez ${
                 GuildDB ? GuildDB.prefix : client.config.DefaultPrefix
-              }help [Command] | Have a nice day!`
+              }help [Commande] | Passez une bonne journée ! {ẕєγʀ0х}`
             ).setDescription(`${Commands.join("\n")}
   
-  Discord Music Bot Version: v${require("../package.json").version}
-  [✨ Support Server](${
-    client.config.SupportServer
-  }) | [GitHub](https://github.com/SudhanPlayz/Discord-MusicBot) | By [SudhanPlayz](https://github.com/SudhanPlayz)`);
+ Version: v${require("../package.json").version}
+ By [ẕєγʀ0х]`);
     if (!args[0]) message.channel.send(Embed);
     else {
       let cmd =
         client.commands.get(args[0]) ||
         client.commands.find((x) => x.aliases && x.aliases.includes(args[0]));
       if (!cmd)
-        return client.sendTime(message.channel, `❌ | Unable to find that command.`);
+        return client.sendTime(message.channel, `❌ | Impossible de trouver cette commande.`);
 
       let embed = new MessageEmbed()
         .setAuthor(`Command: ${cmd.name}`, client.config.IconURL)
@@ -63,7 +61,7 @@ module.exports = {
         )
         .addField(
           "Permissions",
-          "Member: " +
+          "Membre: " +
             cmd.permissions.member.join(", ") +
             "\nBot: " +
             cmd.permissions.channel.join(", "),
@@ -82,9 +80,9 @@ module.exports = {
 SlashCommand: {
     options: [
       {
-        name: "command",
-        description: "Get information on a specific command",
-        value: "command",
+        name: "commande",
+        description: "Obtenir des informations sur une commande spécifique",
+        value: "commande",
         type: 3,
         required: false
       },
@@ -107,27 +105,25 @@ SlashCommand: {
   
       let Embed = new MessageEmbed()
             .setAuthor(
-              `Commands of ${client.user.username}`,
+              `Commandes de ${client.user.username}`,
               client.config.IconURL
             )
             .setColor("RANDOM")
             .setFooter(
-              `To get info of each command type ${
+              `Pour obtenir des informations sur chaque commande, tapez ${
                 GuildDB ? GuildDB.prefix : client.config.DefaultPrefix
-              }help [Command] | Have a nice day!`
+              }help [Commande] | Passez une bonne journée !`
             ).setDescription(`${Commands.join("\n")}
   
-  Discord Music Bot Version: v${require("../package.json").version}
-  [✨ Support Server](${
-    client.config.SupportServer
-  }) | [GitHub](https://github.com/SudhanPlayz/Discord-MusicBot) | By [SudhanPlayz](https://github.com/SudhanPlayz)`);
+ Version: v${require("../package.json").version}
+ By [ẕєγʀ0х]`);
       if (!args) return interaction.send(Embed);
       else {
         let cmd =
           client.commands.get(args[0].value) ||
           client.commands.find((x) => x.aliases && x.aliases.includes(args[0].value));
         if (!cmd)
-          return client.sendTime(interaction, `❌ | Unable to find that command.`);
+          return client.sendTime(interaction, `❌ | Impossible de trouver cette commande.`);
   
         let embed = new MessageEmbed()
           .setAuthor(`Command: ${cmd.name}`, client.config.IconURL)
@@ -144,7 +140,7 @@ SlashCommand: {
           )
           .addField(
             "Permissions",
-            "Member: " +
+            "Membre: " +
               cmd.permissions.member.join(", ") +
               "\nBot: " +
               cmd.permissions.channel.join(", "),
