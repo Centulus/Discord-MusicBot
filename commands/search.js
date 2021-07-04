@@ -5,7 +5,7 @@ const prettyMilliseconds = require("pretty-ms");
 
 module.exports = {
   name: "search",
-  description: "Shows a result of songs based on the search query",
+  description: "Affiche un résultat de chansons basé sur la requête",
   usage: "[song]",
   permissions: {
     channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
@@ -23,21 +23,21 @@ module.exports = {
     if (!message.member.voice.channel)
       return client.sendTime(
         message.channel,
-        "❌ | **You must be in a voice channel to play something!**"
+        "❌ | **Vous devez être dans un salon vocal pour jouer quelque chose !**"
       );
-      if (message.guild.me.voice.channel && message.member.voice.channel.id !== message.guild.me.voice.channel.id) return client.sendTime(message.channel, ":x: | **You must be in the same voice channel as me to use this command!**");
+      if (message.guild.me.voice.channel && message.member.voice.channel.id !== message.guild.me.voice.channel.id) return client.sendTime(message.channel, ":x: | **Vous devez être dans le même salon vocal que moi pour utiliser cette commande.!**");
 
     let SearchString = args.join(" ");
     if (!SearchString)
       return client.sendTime(
         message.channel,
-        `**Usage - **\`${GuildDB.prefix}search [query]\``
+        `**Usage - **\`${GuildDB.prefix}search [requête]\``
       );
     let CheckNode = client.Manager.nodes.get(client.config.Lavalink.id);
     if (!CheckNode || !CheckNode.connected) {
       return client.sendTime(
         message.channel,
-        "❌ | **Lavalink node not connected**"
+        "❌ | **Lavalink node non connecté**"
       );
     }
     const player = client.Manager.create({
@@ -47,13 +47,13 @@ module.exports = {
       selfDeafen: false,
     });
 
-    if (player.state != "CONNECTED") await player.connect();
+    if (player.state != "CONNECTÉ") await player.connect();
 
     let Searched = await player.search(SearchString, message.author);
-    if (Searched.loadType == "NO_MATCHES")
+    if (Searched.loadType == "AUCUN_RÉSULTAT")
       return client.sendTime(
         message.channel,
-        "No matches found for " + SearchString
+        "Aucun résultat trouvé pour " + SearchString
       );
     else {
       Searched.tracks = Searched.tracks.map((s, i) => {
@@ -72,7 +72,7 @@ module.exports = {
         );
 
         let em = new MessageEmbed()
-          .setAuthor("Search Results of " + SearchString, client.config.IconURL)
+          .setAuthor("Résultats de la recherche pour " + SearchString, client.config.IconURL)
           .setColor("RANDOM")
           .setDescription(MappedSongs.join("\n\n"));
         return em;
@@ -85,20 +85,20 @@ module.exports = {
       let w = (a) => new Promise((r) => setInterval(r, a));
       await w(500); //waits 500ms cuz needed to wait for the above song search embed to send ._.
       let msg = await message.channel.send(
-        "**Type the number of the song you want to play! Expires in `30 seconds`.**"
+        "**Tapez le numéro de la chanson que vous voulez jouer ! Expire dans `30 secondes`.**"
       );
 
       let er = false;
       let SongID = await message.channel
         .awaitMessages((msg) => message.author.id === msg.author.id, {
           max: 1,
-          errors: ["time"],
+          errors: ["temps"],
           time: 30000,
         })
         .catch(() => {
           er = true;
           msg.edit(
-            "**You took too long to respond. Run the command again if you want to play something!**"
+            "**Vous avez mis trop de temps à répondre. Exécutez à nouveau la commande si vous voulez jouer quelque chose !**"
           );
         });
       if (er) return;
@@ -106,18 +106,18 @@ module.exports = {
       let SongIDmsg = SongID.first();
 
       if (!parseInt(SongIDmsg.content))
-        return client.sendTime(message.channel, "Please send correct song ID number");
+        return client.sendTime(message.channel, "Veuillez envoyer un numéro correct");
       let Song = Searched.tracks[parseInt(SongIDmsg.content) - 1];
-      if (!Song) return client.sendTime(message.channel, "No song found for the given ID");
+      if (!Song) return client.sendTime(message.channel, "Aucune chanson trouvée pour le numéro donné");
       player.queue.add(Song);
       if (!player.playing && !player.paused && !player.queue.size)
         player.play();
       let SongAddedEmbed = new MessageEmbed();
-      SongAddedEmbed.setAuthor(`Added to queue`, client.config.IconURL);
+      SongAddedEmbed.setAuthor(`Ajouté à la playlist`, client.config.IconURL);
       SongAddedEmbed.setThumbnail(Song.displayThumbnail());
       SongAddedEmbed.setColor("RANDOM");
       SongAddedEmbed.setDescription(`[${Song.title}](${Song.uri})`);
-      SongAddedEmbed.addField("Author", `${Song.author}`, true);
+      SongAddedEmbed.addField("Auteur", `${Song.author}`, true);
       SongAddedEmbed.addField(
         "Duration",
         `\`${prettyMilliseconds(player.queue.current.duration, {
@@ -138,11 +138,11 @@ module.exports = {
   SlashCommand: {
     options: [
       {
-        name: "song",
-        value: "song",
+        name: "chanson",
+        value: "chanson",
         type: 3,
         required: true,
-        description: "Enter the song name or url you want to search",
+        description: "Entrez le nom de la chanson ou l'url que vous voulez rechercher.",
       },
     ],
     /**
@@ -160,7 +160,7 @@ module.exports = {
       if (!member.voice.channel)
         return client.sendTime(
           interaction,
-          "❌ | **You must be in a voice channel to use this command.**"
+          "❌ | **Vous devez être dans un salon vocal pour utiliser cette commande.**"
         );
       if (
         guild.me.voice.channel &&
@@ -168,13 +168,13 @@ module.exports = {
       )
         return client.sendTime(
           interaction,
-          ":x: | **You must be in the same voice channel as me to use this command!**"
+          ":x: | **Vous devez être dans le même salon vocal que moi pour utiliser cette commande !**"
         );
       let CheckNode = client.Manager.nodes.get(client.config.Lavalink.id);
       if (!CheckNode || !CheckNode.connected) {
         return client.sendTime(
           interaction,
-          "❌ | **Lavalink node not connected**"
+          "❌ | **Lavalink node non connecté**"
         );
       }
       let player = client.Manager.create({
@@ -183,7 +183,7 @@ module.exports = {
         textChannel: interaction.channel_id,
         selfDeafen: false,
       });
-      if (player.state != "CONNECTED") await player.connect();
+      if (player.state != "CONNECTÉ") await player.connect();
       let search = interaction.data.options[0].value;
       let res;
 
@@ -193,22 +193,22 @@ module.exports = {
         let Searched = await node.load(search);
 
         switch (Searched.loadType) {
-          case "LOAD_FAILED":
+          case "ECHEC_DU_CHARGEMENT":
             if (!player.queue.current) player.destroy();
-            return client.sendError(interaction, `:x: | **There was an error while searching**`);
+            return client.sendError(interaction, `:x: | **Il y a eu une erreur lors de la recherche**`);
 
-          case "NO_MATCHES":
+          case "AUCUN_RÉSULTAT":
             if (!player.queue.current) player.destroy();
-            return client.sendTime(interaction, ":x: | **No results were found**");
-          case "TRACK_LOADED":
+            return client.sendTime(interaction, ":x: | **Aucun résultat n'a été trouvé**");
+          case "PISTE_CHARGÉE":
             player.queue.add(TrackUtils.build(Searched.tracks[0], member.user));
             if (!player.playing && !player.paused && !player.queue.length)
               player.play();
             return client.sendTime(
-              interaction, `**Added to queue:** \`[${Searched.tracks[0].info.title}](${Searched.tracks[0].info.uri}}\`.`
+              interaction, `**Ajouté à la playlist:** \`[${Searched.tracks[0].info.title}](${Searched.tracks[0].info.uri}}\`.`
             );
 
-          case "PLAYLIST_LOADED":
+          case "PLAYLIST_CHARGÉE":
             let songs = [];
             for (let i = 0; i < Searched.tracks.length; i++)
               songs.push(TrackUtils.build(Searched.tracks[i], member.user));
@@ -221,33 +221,33 @@ module.exports = {
             )
               player.play();
             return client.sendTime(
-              interaction, `**Playlist added to queue**: \n**${Searched.playlist.name}** \nEnqueued: **${Searched.playlistInfo.length} songs**`
+              interaction, `**Playlist ajoutée à la file d'attente**: \n**${Searched.playlist.name}** \nEn file d'attente: **${Searched.playlistInfo.length} chansons**`
             );
         }
       } else {
         try {
           res = await player.search(search, member.user);
-          if (res.loadType === "LOAD_FAILED") {
+          if (res.loadType === "ECHEC_DU_CHARGEMENT") {
             if (!player.queue.current) player.destroy();
             throw new Error(res.exception.message);
           }
         } catch (err) {
           return client.sendTime(
-            interaction, `:x: | **There was an error while searching:** ${err.message}`
+            interaction, `:x: | **Il y a eu une erreur lors de la recherche:** ${err.message}`
           );
         }
         switch (res.loadType) {
-          case "NO_MATCHES":
+          case "AUCUN_RÉSULTAT":
             if (!player.queue.current) player.destroy();
-            return client.sendTime(interaction, ":x: | **No results were found**");
-          case "TRACK_LOADED":
+            return client.sendTime(interaction, ":x: | **Aucun résultat n'a été trouvé**");
+          case "PISTE_CHARGÉE":
             player.queue.add(res.tracks[0]);
             if (!player.playing && !player.paused && !player.queue.length)
               player.play();
             return client.sendTime(
-              interaction, `**Added to queue:** \`[${res.tracks[0].title}](${res.tracks[0].uri})\`.`
+              interaction, `**Ajouté à la playlist:** \`[${res.tracks[0].title}](${res.tracks[0].uri})\`.`
             );
-          case "PLAYLIST_LOADED":
+          case "PLAYLIST_CHARGÉE":
             player.queue.add(res.tracks);
 
             if (
@@ -257,9 +257,9 @@ module.exports = {
             )
               player.play();
             return client.sendTime(
-              interaction, `**Playlist added to queue**: \n**${res.playlist.name}** \nEnqueued: **${res.playlistInfo.length} songs**`
+              interaction, `**Playlist ajoutée à la file d'attente**: \n**${res.playlist.name}** \nEn file d'attente: **${res.playlistInfo.length} chansons**`
             );
-          case "SEARCH_RESULT":
+          case "RÉSULTATS":
             let max = 10,
               collected,
               filter = (m) =>
@@ -281,35 +281,35 @@ module.exports = {
 
             const resultss = new MessageEmbed()
               .setDescription(
-                `${results}\n\n\t**Type the number of the song you want to play!**\n`
+                `${results}\n\n\t**Tapez le numéro de la chanson que vous voulez lire !**\n`
               )
               .setColor("RANDOM")
-              .setAuthor(`Search results for ${search}`, client.config.IconURL);
+              .setAuthor(`Résultats de la recherche pour ${search}`, client.config.IconURL);
             interaction.send(resultss);
             try {
               collected = await awaitchannel.awaitMessages(filter, {
                 max: 1,
                 time: 30e3,
-                errors: ["time"],
+                errors: ["temps"],
               });
             } catch (e) {
               if (!player.queue.current) player.destroy();
               return awaitchannel.send(
-                "❌ | **You didn't provide a selection**"
+                "❌ | **Vous n'avez pas fourni de sélection**"
               );
             }
 
             const first = collected.first().content;
 
-            if (first.toLowerCase() === "cancel") {
+            if (first.toLowerCase() === "annuler") {
               if (!player.queue.current) player.destroy();
-              return awaitchannel.send("Cancelled search.");
+              return awaitchannel.send("Recherche annulée.");
             }
 
             const index = Number(first) - 1;
             if (index < 0 || index > max - 1)
               return awaitchannel.send(
-                `The number you provided was greater or less than the search total. Usage - \`(1-${max})\``
+                `Le nombre que vous avez fourni est supérieur ou inférieur au total de la recherche.. Usage - \`(1-${max})\``
               );
             const track = res.tracks[index];
             player.queue.add(track);
@@ -322,7 +322,7 @@ module.exports = {
               SongAddedEmbed.setThumbnail(track.displayThumbnail());
               SongAddedEmbed.setColor("RANDOM");
               SongAddedEmbed.setDescription(`[${track.title}](${track.uri})`);
-              SongAddedEmbed.addField("Author", track.author, true);
+              SongAddedEmbed.addField("Auteur", track.author, true);
               SongAddedEmbed.addField(
                 "Duration",
                 `\`${prettyMilliseconds(track.duration, {
