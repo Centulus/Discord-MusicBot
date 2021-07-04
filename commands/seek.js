@@ -20,8 +20,8 @@ module.exports = {
     run: async (client, message, args, { GuildDB }) => {
         let player = await client.Manager.get(message.guild.id);
         if (!player) return client.sendTime(message.channel, "❌ | **Rien n'est joué actuellement...**");
-        if (!message.member.voice.channel) return client.sendTime(message.channel, "❌ | **Vous devez être dans un salon vocal pour utiliser cette commande.!**");
-        if (message.guild.me.voice.channel && message.member.voice.channel.id !== message.guild.me.voice.channel.id) return client.sendTime(message.channel, ":x: | **Vous devez être dans le même salon vocal que moi pour utiliser cette commande.!**");
+        if (!message.member.voice.channel) return client.sendTime(message.channel, "❌ | **Vous devez être dans un salon vocal pour utiliser cette commande !**");
+        if (message.guild.me.voice.channel && message.member.voice.channel.id !== message.guild.me.voice.channel.id) return client.sendTime(message.channel, ":x: | **Vous devez être dans le même salon vocal que moi pour utiliser cette commande !**");
         if (!player.queue.current.isSeekable) return client.sendTime(message.channel, "❌ | **Je ne suis pas capable de chercher cette chanson !**");
         let SeekTo = client.ParseHumanTime(args.join(" "));
         if (!SeekTo) return client.sendTime(message.channel, `**Usage - **\`${GuildDB.prefix}seek <temps en s/m/h>\` \n**Exemple - **\`${GuildDB.prefix}seek 2m 10s\``);
