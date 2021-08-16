@@ -1,12 +1,12 @@
 module.exports = {
   Admins: ["UserID", "UserID"], //Admins of the bot
   ExpressServer: true,//If you wanted to make the website run or not
-  DefaultPrefix: process.env.Prefix || ">", //Default prefix, Server Admins can change the prefix
+  DefaultPrefix: process.env.Prefix || "/", //Default prefix, Server Admins can change the prefix
   Port: 3000, //Which port website gonna be hosted
-  SupportServer: "https://discord.gg/a9SHDpD", //Support Server Link
-  Token: process.env.Token || "", //Discord Bot Token
-  ClientID: process.env.Discord_ClientID || "", //Discord Client ID
-  ClientSecret: process.env.Discord_ClientSecret || "", //Discord Client Secret
+  SupportServer: "", //Support Server Link
+  Token: process.env.Token || "ODYxMDM1ODQ0Nzc3NTQxNjQy.YOD8Hg.BndbNYSiTWFk7PdFFAP2UW8yIjA", //Discord Bot Token
+  ClientID: process.env.Discord_ClientID || "861035844777541642", //Discord Client ID
+  ClientSecret: process.env.Discord_ClientSecret || "aff6ad3e843e443d83d92f256ffb116f", //Discord Client Secret
   Scopes: ["identify", "guilds", "applications.commands"], //Discord OAuth2 Scopes
   CallbackURL: "/api/callback", //Discord OAuth2 Callback URL
   "24/7": false, //If you want the bot to be stay in the vc 24/7
@@ -36,7 +36,7 @@ module.exports = {
 
   //Please go to https://developer.spotify.com/dashboard/
   Spotify: {
-    ClientID: process.env.Spotify_ClientID || "", //Spotify Client ID
-    ClientSecret: process.env.Spotify_ClientSecret || "", //Spotify Client Secret
+    ClientID: process.env.Spotify_ClientID || "49fec960fb56459ca71c1f5d02e51cd9", //Spotify Client ID
+    ClientSecret: process.env.Spotify_ClientSecret || "aff6ad3e843e443d83d92f256ffb116f", //Spotify Client Secret
   },
 };
